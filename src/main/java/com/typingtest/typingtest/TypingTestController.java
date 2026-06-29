@@ -71,24 +71,38 @@ public class TypingTestController {
     }
 
     public void calculateSpeed(){
+        int[] seconds = {0};
+        //acts as a flag to make sure timer only starts once
+        int[] started = {0};
+        Timer timer = new Timer();
         //when the user types the timer begins
         textarea.setOnKeyTyped(event -> {
-            int[] seconds = {0};
+            if(started[0] == 0) {
+                started[0] = 1;
+                //starts the timer
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        seconds[0]++;
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                wpm.setText(seconds[0] + "s");
+                            }
+                        });
+                    }
+                }, 0, 300);
+            }
 
-            Timer timer = new Timer();
-
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    seconds[0]++;
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            wpm.setText(seconds[0] + "s");
-                        }
-                    });
+            //When the user has reached the last character of the given word then timer must stop
+            textarea.textProperty().addListener((observable, oldValue, newValue) -> { //Notifies when the value changes, basically eveytime a user types/deletes it handles old text and new
+                if(newValue.length() == targetText.length()){
+                    timer.cancel();
                 }
-            }, 0, 1000);
+            });
+
         });
+
+
     }
 }
