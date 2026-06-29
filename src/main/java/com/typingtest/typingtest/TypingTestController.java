@@ -46,11 +46,12 @@ public class TypingTestController {
 
 
         textarea.textProperty().addListener((observable, oldValue, newValue) -> { //Notifies when the value changes, basically eveytime a user types/deletes it handles old text and new
-            textFlow.getChildren().clear();
+            textFlow.getChildren().clear(); //There is added info to the text. The sentence stays the same through out
 
             for(int i = 0; i < targetText.length(); i++){
                 Text ch = new Text(String.valueOf(targetText.charAt(i)));
 
+                //It checks whether the user has typed far enough to reach character i. So there's no IndexOutOfBoundsException
                 if(i< newValue.length()){
                     if(newValue.charAt(i) == targetText.charAt(i)){
                         ch.setFill(Color.DARKGRAY);
@@ -94,7 +95,7 @@ public class TypingTestController {
                 }, 0, 300);
             }
 
-            //When the user has reached the last character of the given word then timer must stop
+            //When the user has typed the entire length word then timer must stop
             textarea.textProperty().addListener((observable, oldValue, newValue) -> { //Notifies when the value changes, basically eveytime a user types/deletes it handles old text and new
                 if(newValue.length() == targetText.length()){
                     timer.cancel();
