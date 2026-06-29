@@ -41,7 +41,6 @@ public class TypingTestApplication extends Application {
         Text incorr =  new Text("");
 
         Button resetButton = new Button("Reset Button");
-        resetButton.addActionListener();
 
         HBox hbox = new HBox(metric, hb, hb1);
         hbox.setPadding( new Insets(0,0,50,0) );
