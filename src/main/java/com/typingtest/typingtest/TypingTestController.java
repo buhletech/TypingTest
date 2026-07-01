@@ -32,8 +32,6 @@ public class TypingTestController {
     };
 
     public void startTest(){
-        int currentChar = 0;
-
         int random = (int) (Math.random() * list.length);
         targetText = list[random];
 
@@ -55,6 +53,7 @@ public class TypingTestController {
                 if(i< newValue.length()){
                     if(newValue.charAt(i) == targetText.charAt(i)){
                         ch.setFill(Color.DARKGRAY);
+
                     }else{
                         ch.setFill(Color.RED);
                     }
@@ -63,12 +62,24 @@ public class TypingTestController {
                 }
 
                 textFlow.getChildren().add(ch);
+
+            }
+
+            int words =0;
+            for(int i = 0; i < targetText.length(); i++){
+                if(i< newValue.length()) {
+                    if (newValue.charAt(i) == targetText.charAt(i)) {
+                        words++;
+                    }
+                }
+            }
+
+            double sums = (int)(((double) words / newValue.length()) * 100);
+
+            if(newValue.length() == targetText.length()){
+                acc.setText(String.valueOf(sums) + "%");
             }
         });
-    }
-
-    public void resetTest(){
-
     }
 
     public void calculateSpeed(){
@@ -88,6 +99,7 @@ public class TypingTestController {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
+
                                 wpm.setText(seconds[0] + "s");
                             }
                         });
@@ -103,7 +115,5 @@ public class TypingTestController {
             });
 
         });
-
-
     }
 }
